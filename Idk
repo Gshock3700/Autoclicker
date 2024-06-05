@@ -1,0 +1,91 @@
+1-- Create the GUI
+2local gui = Instance.new("ScreenGui")
+3gui.Name = "ShockHub"
+4gui.Parent = game.Players.LocalPlayer.PlayerGui
+5
+6local mainFrame = Instance.new("Frame")
+7mainFrame.Size = UDim2.new(0, 200, 0, 100)
+8mainFrame.Position = UDim2.new(0, 10, 0, 10)
+9mainFrame.BackgroundColor3 = Color3.new(0, 0, 0)
+10mainFrame.BackgroundTransparency = 0.5
+11mainFrame.Parent = gui
+12
+13local title = Instance.new("TextLabel")
+14title.Text = "ShockHub"
+15title.Font = Enum.Font.SourceSans
+16title.FontSize = Enum.FontSize.Size24
+17title.TextColor3 = Color3.new(1, 1, 1)
+18title.Parent = mainFrame
+19
+20-- Create the autoclicker toggle button
+21local autoclickerToggle = Instance.new("TextButton")
+22autoclickerToggle.Text = "Toggle Autoclicker"
+23autoclickerToggle.Font = Enum.Font.SourceSans
+24autoclickerToggle.FontSize = Enum.FontSize.Size18
+25autoclickerToggle.TextColor3 = Color3.new(1, 1, 1)
+26autoclickerToggle.BackgroundColor3 = Color3.new(0, 0, 0)
+27autoclickerToggle.BackgroundTransparency = 0.5
+28autoclickerToggle.Size = UDim2.new(0, 150, 0, 30)
+29autoclickerToggle.Position = UDim2.new(0, 10, 0, 40)
+30autoclickerToggle.Parent = mainFrame
+31
+32local autoclickerCircle = Instance.new("ImageLabel")
+33autoclickerCircle.Image = "rbxassetid://3570695787" -- small circle image
+34autoclickerCircle.Size = UDim2.new(0, 20, 0, 20)
+35autoclickerCircle.Position = UDim2.new(1, -30, 0, 5)
+36autoclickerCircle.Parent = autoclickerToggle
+37
+38-- Create the area to click button
+39local areaToClickButton = Instance.new("TextButton")
+40areaToClickButton.Text = "Area to Click"
+41areaToClickButton.Font = Enum.Font.SourceSans
+42areaToClickButton.FontSize = Enum.FontSize.Size18
+43areaToClickButton.TextColor3 = Color3.new(1, 1, 1)
+44areaToClickButton.BackgroundColor3 = Color3.new(0, 0, 0)
+45areaToClickButton.BackgroundTransparency = 0.5
+46areaToClickButton.Size = UDim2.new(0, 150, 0, 30)
+47areaToClickButton.Position = UDim2.new(0, 10, 0, 80)
+48areaToClickButton.Parent = mainFrame
+49
+50-- Create the clicks per second textbox
+51local clicksPerSecondTextBox = Instance.new("TextBox")
+52clicksPerSecondTextBox.PlaceholderText = "Clicks per second"
+53clicksPerSecondTextBox.Font = Enum.Font.SourceSans
+54clicksPerSecondTextBox.FontSize = Enum.FontSize.Size18
+55clicksPerSecondTextBox.TextColor3 = Color3.new(1, 1, 1)
+56clicksPerSecondTextBox.BackgroundColor3 = Color3.new(0, 0, 0)
+57clicksPerSecondTextBox.BackgroundTransparency = 0.5
+58clicksPerSecondTextBox.Size = UDim2.new(0, 100, 0, 30)
+59clicksPerSecondTextBox.Position = UDim2.new(0, 10, 0, 120)
+60clicksPerSecondTextBox.Parent = mainFrame
+61
+62-- Variables
+63local autoclickerEnabled = false
+64local areaToClick = Vector2.new(0, 0)
+65local clicksPerSecond = 1
+66
+67-- Functions
+68local function toggleAutoclicker()
+69    autoclickerEnabled = not autoclickerEnabled
+70    if autoclickerEnabled then
+71        autoclickerCircle.ImageColor3 = Color3.new(1, 0, 0) -- red
+72        autoclickerToggle.Text = "Toggle Autoclicker (ON)"
+73    else
+74        autoclickerCircle.ImageColor3 = Color3.new(0, 0, 0) -- black
+75        autoclickerToggle.Text = "Toggle Autoclicker (OFF)"
+76    end
+77end
+78
+79local function setAreaToClick()
+80    local userInputService = game:GetService("UserInputService")
+81    userInputService.InputBegan:Connect(function(input)
+82        if input.UserInputType == Enum.UserInputType.Touch then
+83            areaToClick = input.Position
+84        end
+85    end)
+86end
+87
+88local function startAutoclicker()
+89    while autoclickerEnabled do
+90        wait(1 / clicksPerSecond)
+91        game
